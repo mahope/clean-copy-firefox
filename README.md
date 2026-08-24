@@ -4,8 +4,10 @@ Copy any selected text as **clean, formatted Markdown** — right from your brow
 
 ![Version](https://img.shields.io/badge/version-1.4.1-blue) ![Firefox](https://img.shields.io/badge/Firefox-MV3-orange) ![License](https://img.shields.io/badge/license-MIT-lightgrey)
 
-## What it does
+![Extension demo](demo-extension.gif)
 
+## What it does
+ 
 Select text on any webpage → right-click → **Clean Copy**:
 
 - Converts headings, bold, italic, links, lists (nested too), code blocks, blockquotes, definition lists and tables to proper Markdown
