@@ -30,10 +30,14 @@ const sandbox = {
     commands: { onCommand: { addListener: () => {} } },
     scripting: { executeScript: async () => [] },
     tabs: { query: async () => [] },
-    storage: { local: { get: async () => ({}), set: async () => {} } },
+    storage: { local: { get: async () => ({}), set: async () => {} }, onChanged: { addListener: () => {} } },
   },
   chrome: {
     contextMenus: sandboxChromeMenus(),
+    runtime: { lastError: null, onInstalled: { addListener: () => {} }, onMessage: { addListener: () => {} }, getURL: (p) => p, sendMessage: async () => {} },
+    commands: { onCommand: { addListener: () => {} } },
+    action: {},
+    storage: { local: { get: async () => ({}), set: async () => {} }, onChanged: { addListener: () => {} } },
   },
 };
 function sandboxChromeMenus() {
