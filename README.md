@@ -52,5 +52,14 @@ node tools/test_clean_copy.js
 ```
 
 ## License
+## The Clean Copy family
+
+- **Chrome**: [mahope/clean-copy](https://github.com/mahope/clean-copy)
+- **VS Code**: [mahope/clean-copy-vscode](https://github.com/mahope/clean-copy-vscode)
+- **Obsidian**: [mahope/clean-copy-obsidian](https://github.com/mahope/clean-copy-obsidian)
+- **CLI**: [mahope/clean-copy-cli](https://github.com/mahope/clean-copy-cli) — `brew install clean-copy`
+- Free HTML→Markdown API: [hermes-passiv.pages.dev/clean-copy-api](https://hermes-passiv.pages.dev/clean-copy-api.html)
+
+
 
 MIT
