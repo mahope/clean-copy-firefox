@@ -1,0 +1,68 @@
+name: Publish to Firefox Add-ons (AMO)
+
+# Tag vX.Y.Z or vX.Y.Z-fx (matching manifest.json "version") -> lint,
+# then sign + submit to addons.mozilla.org on the listed channel.
+# Requires AMO_JWT_ISSUER / AMO_JWT_SECRET (see README.md, "Publishing").
+# The first listed submission must be made manually in the Developer Hub;
+# the API can only submit new versions of an existing add-on.
+
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  # Files that must never end up in the signed xpi
+  WEB_EXT_IGNORE_FILES: ".github/** tools/** README.md *.gif web-ext-artifacts/**"
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Run extension logic tests
+        run: node tools/test_clean_copy.js
+
+      - name: Version sanity check (manifest == tag)
+        run: |
+          VER="$(node -p "require('./manifest.json').version")"
+          TAG="${GITHUB_REF_NAME%-fx}"
+          if [ "${GITHUB_EVENT_NAME}" = "push" ] && [ "${TAG}" != "v${VER}" ]; then
+            echo "::error::tag ${GITHUB_REF_NAME} does not match manifest.json version ${VER} (expected v${VER} or v${VER}-fx)"
+            exit 1
+          fi
+          echo "VERSION=${VER}" >> "$GITHUB_ENV"
+
+      - name: web-ext lint
+        run: npx --yes web-ext@10 lint --source-dir . --ignore-files $WEB_EXT_IGNORE_FILES
+
+      - name: web-ext sign (listed channel)
+        env:
+          WEB_EXT_API_KEY: ${{ secrets.AMO_JWT_ISSUER }}
+          WEB_EXT_API_SECRET: ${{ secrets.AMO_JWT_SECRET }}
+        run: |
+          [ -n "$WEB_EXT_API_KEY" ] && [ -n "$WEB_EXT_API_SECRET" ] \
+            || { echo "::error::AMO_JWT_ISSUER / AMO_JWT_SECRET not set (see README.md, Publishing)"; exit 1; }
+          # --approval-timeout 0: submit and return; listed versions wait for AMO review anyway
+          npx --yes web-ext@10 sign \
+            --source-dir . \
+            --artifacts-dir web-ext-artifacts \
+            --channel listed \
+            --approval-timeout 0 \
+            --ignore-files $WEB_EXT_IGNORE_FILES
+
+      - name: Keep the submitted xpi as a build artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: clean-copy-md-${{ env.VERSION }}
+          path: web-ext-artifacts/
+          if-no-files-found: ignore

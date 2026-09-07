@@ -51,6 +51,31 @@ Clean Copy does exactly one thing on the page you're looking at, when you ask it
 node tools/test_clean_copy.js
 ```
 
+## Publishing (maintainers)
+
+New versions are submitted to addons.mozilla.org automatically by
+[`.github/workflows/publish-amo.yml`](.github/workflows/publish-amo.yml)
+when a `vX.Y.Z` (or `vX.Y.Z-fx`) tag is pushed. The tag must equal the
+`version` in `manifest.json`. The workflow runs `web-ext lint` and then
+`web-ext sign --channel listed`; AMO reviews and publishes the version.
+
+```bash
+# bump "version" in manifest.json, commit, then:
+git tag v1.5.3-fx && git push origin main v1.5.3-fx
+```
+
+**The first listed submission must be made manually** in the
+[AMO Developer Hub](https://addons.mozilla.org/developers/) (add-on ID
+`clean-copy-md@mahope.dk`, name "Clean Copy MD" - see the listing kit). The
+API only submits new versions of an existing add-on.
+
+One-time setup of the two repository secrets (Settings -> Secrets and variables -> Actions):
+
+| Secret | Where it comes from |
+|---|---|
+| `AMO_JWT_ISSUER` | addons.mozilla.org -> Tools -> Manage API Keys (https://addons.mozilla.org/developers/addon/api/key/) -> "JWT issuer" |
+| `AMO_JWT_SECRET` | Same page -> "JWT secret" (shown once; regenerate if lost) |
+
 ## The Clean Copy family
 
 - **Chrome**: [mahope/clean-copy](https://github.com/mahope/clean-copy)
