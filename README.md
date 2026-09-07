@@ -20,7 +20,7 @@ Keyboard shortcut: <kbd>Ctrl+Shift+C</kbd> (Windows/Linux) / <kbd>Cmd+Shift+C</k
 
 The popup also lets you paste-and-clean: drop in dirty HTML or messy text and get clean Markdown out.
 
-This is the Firefox port of [Clean Copy](https://github.com/mahope/clean-copy) (Chrome). Same converter core, same features. Also available as a [CLI](https://github.com/mahope/clean-copy-cli) (`brew install clean-copy`) and an [Obsidian plugin](https://github.com/mahope/clean-copy-obsidian).
+This is the Firefox port of [Clean Copy](https://github.com/mahope/clean-copy) (Chrome). Same converter core, same features. Also available as a [CLI](https://github.com/mahope/clean-copy-cli) (`brew install mahope/tap/clean-copy`) and an [Obsidian plugin](https://github.com/mahope/clean-copy-obsidian).
 
 ## Install from source (~30 seconds)
 
@@ -51,15 +51,19 @@ Clean Copy does exactly one thing on the page you're looking at, when you ask it
 node tools/test_clean_copy.js
 ```
 
-## License
 ## The Clean Copy family
 
 - **Chrome**: [mahope/clean-copy](https://github.com/mahope/clean-copy)
 - **VS Code**: [mahope/clean-copy-vscode](https://github.com/mahope/clean-copy-vscode)
 - **Obsidian**: [mahope/clean-copy-obsidian](https://github.com/mahope/clean-copy-obsidian)
-- **CLI**: [mahope/clean-copy-cli](https://github.com/mahope/clean-copy-cli) — `brew install clean-copy`
-- Free HTML→Markdown API: [hermes-passiv.pages.dev/clean-copy-api](https://hermes-passiv.pages.dev/clean-copy-api.html)
+- **CLI**: [mahope/clean-copy-cli](https://github.com/mahope/clean-copy-cli) — `brew install mahope/tap/clean-copy`
+- Product page: [cleancopy.tools](https://cleancopy.tools/)
+- Free HTML→Markdown API: [mahope.tools/clean-copy-api](https://mahope.tools/clean-copy-api.html)
 
-
+## License
 
 MIT
+
+## Author
+
+Built by Mads Holst Jensen — developer and technical partner for small businesses, Odense, Denmark. https://mahoje.dk
