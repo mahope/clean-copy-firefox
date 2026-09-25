@@ -44,6 +44,8 @@ function sandboxChromeMenus() {
   return { create: () => {}, removeAll: (cb) => cb && cb(), onClicked: { addListener: () => {} } };
 }
 vm.createContext(sandbox);
+// manifest background.scripts loads license.js before background.js.
+vm.runInContext(fs.readFileSync(path.join(__dirname, '..', 'license.js'), 'utf8'), sandbox);
 vm.runInContext(src, sandbox);
 
 let pass = 0, fail = 0;
@@ -86,6 +88,21 @@ t('nested list 3', htmlToMarkdown('<ul><li>a<ul><li>b<ul><li>c</li></ul></li></u
 // Ordered list.
 t('ordered list', htmlToMarkdown('<ol><li>one</li><li>two</li></ol>').trim(), '1. one\n2. two');
 t('invisible word joiners stripped', cleanText('Guard\u2060ian artic\u2062le'), 'Guardian article');
+
+// Pro rules follow the 7-day offline grace at use time.
+const DAY = 24 * 60 * 60 * 1000;
+vm.runInContext(`
+  lastRevalidateAttempt = Date.now(); // no network in tests
+  proState.compiled = compileRules([{ find: 'foo', replace: 'bar' }]);
+`, sandbox);
+const setLicense = (validatedAt) => vm.runInContext(
+  `proState.license = { proLicense: '0123456789abcdef0123456789abcdef', validatedAt: ${validatedAt} };`, sandbox);
+setLicense(Date.now() - 6 * DAY);
+t('pro rules applied within grace', sandbox.withProRules({ content: 'foo' }).content, 'bar');
+setLicense(Date.now() - 8 * DAY);
+t('pro rules locked after 7 days without validation', sandbox.withProRules({ content: 'foo' }).content, 'foo');
+vm.runInContext('proState.license = {};', sandbox);
+t('pro rules locked without license', sandbox.withProRules({ content: 'foo' }).content, 'foo');
 
 console.log(`\n${pass} passed, ${fail} failed`);
 process.exit(fail ? 1 : 0);
