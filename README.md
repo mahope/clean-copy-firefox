@@ -2,7 +2,7 @@
 
 Copy any selected text as **clean, formatted Markdown** — right from your browser's right-click menu. No more messy pastes with broken styling, inline CSS junk, or lost formatting.
 
-![Version](https://img.shields.io/badge/version-1.4.1-blue) ![Firefox](https://img.shields.io/badge/Firefox-MV3-orange) ![License](https://img.shields.io/badge/license-MIT-lightgrey)
+![Version](https://img.shields.io/badge/version-1.5.3-blue) ![Firefox](https://img.shields.io/badge/Firefox-MV3-orange) ![License](https://img.shields.io/badge/license-MIT-lightgrey)
 
 ![Extension demo](demo-extension.gif)
 
@@ -75,6 +75,16 @@ One-time setup of the two repository secrets (Settings -> Secrets and variables 
 |---|---|
 | `AMO_JWT_ISSUER` | addons.mozilla.org -> Tools -> Manage API Keys (https://addons.mozilla.org/developers/addon/api/key/) -> "JWT issuer" |
 | `AMO_JWT_SECRET` | Same page -> "JWT secret" (shown once; regenerate if lost) |
+
+## Clean Copy Pro
+
+Pro ($19/year, 5 devices) adds custom find/replace cleanup rules that run after every copy.
+[Buy Clean Copy Pro](https://buy.stripe.com/6oU4gy76PgvgdBIdAXbMQ00); the license key arrives by email right after payment.
+Paste it on the add-on's options page (`about:addons` -> Clean Copy MD -> Options) and click **Activate**.
+
+The key is checked against `https://mahope.tools/api/license/` (key, a random per-installation device ID and the product name; nothing else).
+If the server cannot be reached, Pro keeps working for up to 7 days after the last successful check.
+**Remove license** frees the device slot so you can move the license to another machine.
 
 ## The Clean Copy family
 
